@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; background-color: #f8f8f8;}
+      canvas {margin-left: 300px; margin-top: 50px;}
+      h1 {margin-top:50px; margin-left:500px;}
+      #sensor_group {margin-left: 450px; margin-top: -400px;}
+      #one{color:rgb(0 , 255 , 0);}
+    </style>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.27.0/smoothie.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  </head>
+  <body>
+    <h1>Real Time Temp Analysis</h1>
+    <canvas id="mycanvas" width="600" height="500"></canvas>
+    <div id="sensor_group">
+         <h1 id = "one">sensor 1 = </h1>
+         <h1 id = "two">sensor 2 = </h1>
+         <h1 id = "three">sensor 3 = </h1>
+         <h1 id = "four">sensor 4 = </h1>
+   </div>
+
+
+  <script>
+var socket = io();
+
+
+var smoothie = new SmoothieChart( {
+grid: { strokeStyle:'rgb(125, 0, 0)', fillStyle:'rgb(60, 0, 0)',
+lineWidth: 1, millisPerLine: 2000, verticalSections: 6, },
+minValue:-10,
+maxValue:50,
+interpolation:"step",
+labels: { fillStyle:'rgb(255, 255, 255)' },
+sharpLines:true,
+labels:{fontSize:15},
+timestampFormatter:SmoothieChart.timeFormatter } );
+
+
+var line1 = new TimeSeries();
+
+
+smoothie.addTimeSeries(line1, { strokeStyle:'rgb(0 , 255 , 0)', fillStyle:'rgba(0, 255, 0, 0.4)', lineWidth:3 });
+
+smoothie.streamTo(document.getElementById("mycanvas"), 1000 /*delay*/);
+
+var socket = io.connect();
+socket.on("chat message", function(data) {
+line1.append(new Date().getTime(),data);
+});
+
+    </script>
+  </body>
+</html>
