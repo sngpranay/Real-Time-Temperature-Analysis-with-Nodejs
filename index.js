@@ -28,11 +28,8 @@ http.listen(3000, function(){
 });
 
 
-
-
-
 	sp.on('data', function(data) {
-    console.log(data);
+		console.log(data);
 			message = data.split(',');
 			// console.log(message[0]);
 			if (message[0] === 'A'){
@@ -52,6 +49,8 @@ http.listen(3000, function(){
 				data = message[1];
 				io.emit("D", data);
 			}
-
-
 });
+
+// io.on("buttonPress",function(string){
+// 	console.log(string);
+// });
