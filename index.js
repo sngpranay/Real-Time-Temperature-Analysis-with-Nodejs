@@ -51,6 +51,21 @@ http.listen(3000, function(){
 			}
 });
 
-// io.on("buttonPress",function(string){
-// 	console.log(string);
-// });
+
+/// On Button Press THis function happens
+io.on("connection",function(socket){
+			console.log("We are Connected !!");
+
+	socket.on("buttonPress", function(string){
+
+				console.log(string);
+				var newData = [23,23,23,23];
+				var newString =  newData.toString();
+
+
+				io.emit("A1", newString); //Json.stringify
+
+
+
+	});
+});
